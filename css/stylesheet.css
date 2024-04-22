@@ -2032,8 +2032,8 @@ b {
 /* ------------------ main end ------------------ */
 /* ---------------------------------------------- */
 /* ---------------- slots slider ---------------- */
-.swiper-css-mode .swiper-android .swiper-slide,
-.swiper-css-mode .swiper-ios .swiper-slide,
+.swiper-css-mode.swiper-android .swiper-slide,
+.swiper-css-mode.swiper-ios .swiper-slide,
 .swiper-css-mode .swiper-wrapper {
     transform: none;
 }
@@ -2234,11 +2234,18 @@ b {
     visibility: hidden;
     transition: opacity .3s ease, visibility .3s ease;
 }
-.slot-item:hover .slot-card,
 .slot-item.active .slot-card {
     opacity: 1;
     visibility: visible;
     transition: opacity .3s 1s ease, visibility .3s 1s ease;
+}
+@media (hover: hover) and (pointer: fine), (min-width:769px) {
+
+.slot-item:hover .slot-card {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .3s 1s ease, visibility .3s 1s ease;
+}
 }
 .card-media {
     display: block;
@@ -3270,7 +3277,6 @@ b {
         z-index: 50;
         background: #12121299;
     }
-    .slot-item:hover .slot-card,
     .slot-item.active .slot-card {
         transition: opacity .3s ease, visibility .3s ease;
     }
