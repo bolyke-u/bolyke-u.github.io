@@ -3247,7 +3247,7 @@ b {
 
 /* ------------------ footer end ----------------- */
 /* ----------------------------------------------- */
-@media not ((hover: hover) and (pointer: fine)), (max-width:768px) {
+@media not ((hover: hover) and (pointer: fine)), (max-width:640px) {
     .slots-slider-wrapper .container .swiper-button-next,
     .slots-slider-wrapper .container .swiper-button-prev,
     .slots-slider-wrapper .container .swiper-pagination {
@@ -3277,6 +3277,7 @@ b {
         z-index: 50;
         background: #12121299;
     }
+    .slot-item:hover .slot-card,
     .slot-item.active .slot-card {
         transition: opacity .3s ease, visibility .3s ease;
     }
@@ -3284,7 +3285,13 @@ b {
         height: auto;
     }
 }
-
+@media (min-width: 641px) and (not ((hover: hover) and (pointer: fine))) {
+    .slot-card {
+        position: fixed;
+        top: 50%;
+        bottom: unset;
+    }
+}
 
 
 @media (max-width: 1280px) {
