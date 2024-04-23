@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', function () {
   dropdownToggle.forEach(item => {
     item.addEventListener('click', (event) => {
       event.preventDefault();
+      if (document.querySelector('.dropdown.show')) {
+        document.querySelector('.dropdown.show').classList.remove('show');
+      }
       item.parentElement.classList.toggle('show');
     });
   })
