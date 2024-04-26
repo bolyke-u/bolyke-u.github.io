@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 
   window.addEventListener('click', (e) => {
-    if (!e.target.matches('.header-nav .dropdown-toggle')) {
+    if (!e.target.matches('.dropdown-toggle') && document.querySelector('.dropdown.show') ) {
       dropdownToggle.forEach(item => {
         item.parentElement.classList.remove('show');
       })
@@ -82,9 +82,50 @@ document.addEventListener('DOMContentLoaded', function () {
     },
   });
 
-  let slotCard = document.querySelectorAll('.slots-slider-wrapper .slot-item');
+  let categoryCards = document.querySelectorAll('.slots-grid .slot-item');
 
-  slotCard.forEach(item => {
+  categoryCards.forEach(item => {
+    if (window.matchMedia("not ((hover: hover) and (pointer: fine))").matches) {
+      let itemWrapper = item.closest('.slots-container');
+      item.addEventListener('click', () => {
+        item.classList.add('active');
+        itemWrapper.classList.add('slot-card-active');
+        if (item.querySelector('video')) {
+          item.querySelector('video').play()
+        }
+      })
+      itemWrapper.addEventListener('click', (event) => {
+        if (event.target.classList.contains('slot-card-active')) {
+          itemWrapper.querySelector('.slot-item.active').classList.remove('active');
+          itemWrapper.classList.remove('slot-card-active');
+          if (itemWrapper.querySelector('.slot-item.active video')) {
+            itemWrapper.querySelector('.slot-item.active video').pause();
+            itemWrapper.querySelector('.slot-item.active video').currentTime = 0;
+          }
+        }
+      })
+    } else {
+      item.addEventListener('mouseover', () => {
+        if (item.querySelector('video')) {
+          sleep(1000).then(() => {
+            item.querySelector('video').play()
+          })
+        }
+      
+      });
+      item.addEventListener('mouseleave', () => {
+        if (item.querySelector('video')) {
+          item.querySelector('video').pause()
+          item.querySelector('video').currentTime = 0;
+        }
+      })
+    }
+  })
+
+
+  let slotCards = document.querySelectorAll('.slots-slider-wrapper .slot-item');
+
+  slotCards.forEach(item => {
     if (window.matchMedia("not ((hover: hover) and (pointer: fine))").matches) {
       let itemWrapper = item.closest('.slots-slider-wrapper');
       item.addEventListener('click', () => {
@@ -137,6 +178,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })
 
+    // Search 
+    if (document.querySelector('.search')) {
+      // (Optional) Active an item if it has the class "is-active"  
+      // document.querySelector('.accordion-content .accordion-item.active');
+  
+      document.querySelector('.search').addEventListener('click', function (e) {
+        // event.preventDefault();
+        document.querySelector('.category-bar').classList.add('search-active');
+        
+        document.querySelector('.search-field').addEventListener("focusout", (event) => {
+          document.querySelector('.category-bar').classList.remove('search-active');
+        });
+      });
+    } 
+
   // Accordion
   if (document.querySelector('.accordion')) {
     // (Optional) Active an item if it has the class "is-active"  
@@ -163,6 +219,36 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     })
   } 
+
+  // Offcanvas
+  if (document.querySelector('.offcanvas')) {
+    let offcanvasToggle = document.querySelectorAll('.offcanvas-toggle');
+
+    offcanvasToggle.forEach(item => {
+      let offcanvas = document.querySelector(`${item.dataset.target}`);
+      let offcanvasOverlay = offcanvas.querySelector('.offcanvas-overlay');
+
+      item.addEventListener('click', (event) => {
+        event.preventDefault();
+        offcanvas.classList.toggle('show');
+      });
+      offcanvas.querySelector('.btn-close').addEventListener('click', (btn) => {
+        offcanvas.classList.toggle('show');
+      })
+      offcanvasOverlay.addEventListener('click', () => {
+        offcanvas.classList.toggle('show');
+      })
+      
+    })
+
+    // window.addEventListener('click', (e) => {
+    //   if (!e.target.matches('.offcanvas-toggle') && document.querySelector('.offcanvas.show') ) {
+    //     dropdownToggle.forEach(item => {
+    //       item.parentElement.classList.remove('show');
+    //     })
+    //   }
+    // })
+  }
 
   // Tabs 
   if (document.querySelector('.tabs')) {
@@ -211,41 +297,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         modalWindow.classList ? modalWindow.classList.add('open') : modalWindow.className += ' ' + 'open';
         document.querySelector('body').classList.add('unscroll');
-
-        if (modalWindow.classList.contains('search-modal')) {
-          setTimeout(() => {
-            document.querySelector('.search-modal .search-field').focus();
-            // Start Search DEMO
-            document.querySelector('.search-field').addEventListener('input', (event) => {
-              let field = event.target;
-              document.querySelector('.search-loading').classList.remove('d-none');
-              document.querySelector('.search-authors').classList.add('d-none');
-              document.querySelector('.search-tags').classList.add('d-none');
-              document.querySelector('.search-articles').classList.add('d-none');
-              document.querySelector('.search-not-found').classList.add('d-none');
-
-              if (field.value == 'D') {
-                setTimeout(() => {
-                  document.querySelector('.search-not-found').classList.add('d-none');
-                  document.querySelector('.search-loading').classList.add('d-none');
-                  document.querySelector('.search-authors').classList.remove('d-none');
-                  document.querySelector('.search-tags').classList.remove('d-none');
-                  document.querySelector('.search-articles').classList.remove('d-none');
-                }, 1000);
-              } else {
-                setTimeout(() => {
-                  document.querySelector('.search-loading').classList.add('d-none');
-                  document.querySelector('.search-authors').classList.add('d-none');
-                  document.querySelector('.search-tags').classList.add('d-none');
-                  document.querySelector('.search-articles').classList.add('d-none');
-                  document.querySelector('.search-not-found').classList.remove('d-none');
-                }, 1000);
-              }
-            })
-            // End Search DEMO
-          }, 300);
-        }
-       
       }
     }
   }
