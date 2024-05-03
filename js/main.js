@@ -76,8 +76,37 @@ document.addEventListener('DOMContentLoaded', function () {
       clickable: true,
     },
     breakpoints: {
-      768: {
+      769: {
         spaceBetween: 20,
+      },
+    },
+  });
+
+  var gameSimilarSwiper = new Swiper(".game-similar-slider", {
+    enabled: true,
+    slidesPerView: 'auto',
+    slidesPerGroup: 2,
+    spaceBetween: 4,
+    cssMode: true,
+    lazy: true,
+    breakpoints: {
+      769: {
+        enabled: false,
+        spaceBetween: 0,
+      },
+    },
+  });
+
+  var bestSwiper = new Swiper(".best-slider", {
+    enabled: true,
+    slidesPerView: 'auto',
+    slidesPerGroup: 1,
+    spaceBetween: 0,
+    lazy: true,
+    breakpoints: {
+      769: {
+        enabled: false,
+        spaceBetween: 0,
       },
     },
   });
@@ -121,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
       })
     }
   })
-
 
   let slotCards = document.querySelectorAll('.slots-slider-wrapper .slot-item');
 
@@ -178,20 +206,43 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })
 
-    // Search 
-    if (document.querySelector('.search')) {
-      // (Optional) Active an item if it has the class "is-active"  
-      // document.querySelector('.accordion-content .accordion-item.active');
-  
-      document.querySelector('.search').addEventListener('click', function (e) {
-        // event.preventDefault();
-        document.querySelector('.category-bar').classList.add('search-active');
-        
-        document.querySelector('.search-field').addEventListener("focusout", (event) => {
-          document.querySelector('.category-bar').classList.remove('search-active');
-        });
+  // Search 
+  if (document.querySelector('.search')) {
+    // (Optional) Active an item if it has the class "is-active"  
+    // document.querySelector('.accordion-content .accordion-item.active');
+
+    document.querySelector('.search').addEventListener('click', function (e) {
+      // event.preventDefault();
+      document.querySelector('.category-bar').classList.add('search-active');
+      
+      document.querySelector('.search-field').addEventListener("focusout", (event) => {
+        document.querySelector('.category-bar').classList.remove('search-active');
       });
-    } 
+    });
+  } 
+
+  // Game demo toggle
+  let gameIframe = document.querySelector('.game-demo-iframe iframe');
+
+  if (gameIframe){
+    let gameIframeWrapper = gameIframe.closest('.game-demo');
+    gameIframeWrapper.querySelector('.btn-play-game').addEventListener('click', () => {
+      gameIframe.src = gameIframe.dataset.game;
+      gameIframeWrapper.classList.add('game-active');
+    })
+    gameIframeWrapper.querySelector('.btn-fullscreen').addEventListener('click', () => {
+      gameIframeWrapper.classList.toggle('game-fullscreen');
+    })
+  }
+
+    // Game like toggle
+    let gameLike = document.querySelector('.btn-like');
+
+    if (gameLike){
+      gameLike.addEventListener('click', () => {
+        gameLike.classList.toggle('like-active');
+      })
+    }
 
   // Accordion
   if (document.querySelector('.accordion')) {
